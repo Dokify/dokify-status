@@ -92,7 +92,7 @@
 		$json['grupo']['ultimaAccion'] = array('descripcion' => $descripcion, 'hora' => $hora, 'estado' => $estado);
 
 		if (in_array("text/html", httpaccepts())) {
-			require '/var/www/dokify/vendor/mustache/mustache/src/Mustache/Autoloader.php';
+			require '/var/www/dokify-status/vendor/mustache/mustache/src/Mustache/Autoloader.php';
 			Mustache_Autoloader::register();
 
 			$m = new Mustache_Engine;
