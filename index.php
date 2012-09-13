@@ -99,10 +99,23 @@
 		$json['grupo']['ultimaAccion'] = array('descripcion' => $descripcion, 'hora' => $hora, 'estado' => $estado, 'class' => ($estado=="Successful"?'success':'error') );
 
 
-		if( in_array("application/json", httpaccepts() )) {
+    	$format = (@$_GET['format'] == 1) ? 'xml' : 'json';
+    	$json = isset($_GET['format']) && $format === 'json';
+
+		if( in_array("application/json", httpaccepts()) || $json ) {
 			header('Access-Control-Allow-Origin: *');
 			header("Content-Type: application/json");
-			print json_encode($json['grupo']);
+
+			if( $json ){
+				$data = array('item' => array(
+                                array('value' => 123, 'text' => 'text'),
+                                array('value' => 103, 'text' => 'text'),
+                ));
+				print json_encode($data);
+				
+			} else {
+				print json_encode($json['grupo']);
+			}
 		} else {
 			require './vendor/mustache/mustache/src/Mustache/Autoloader.php';
 			Mustache_Autoloader::register();
