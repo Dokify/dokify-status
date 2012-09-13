@@ -15,6 +15,7 @@
         <link rel="stylesheet" href="css/normalize.css">
         <link rel="stylesheet" href="css/main.css">
         <script src="js/vendor/modernizr-2.6.1.min.js"></script>
+
     </head>
     <body>
         <!--[if lt IE 7]>
@@ -22,33 +23,40 @@
         <![endif]-->
 
         <!-- Add your site or application content here -->
+
+
         <div id="principal">
             <h1 it="titulo">El grupo {{nombre}} tiene una capacidad de {{capacidad}} instancias</div>
 
             {{#instances}}
-            <table class="instancia">
-                <thread>
-                    <tr>
-                        <td class="nombre">Instancia {{nombre}}</td>
+            <table class="instancia message highlight">
+                <tbody>
+                        <td class="nombre">Instancia <span class="valor">{{nombre}}</span></td>
                         <tr></tr>                        
-                        <td class="estado">Estado {{estado}} - {{estadoBalanceador}}</td>
+                        <td class="estado">Estado: <span class="valor {{class}}">{{estado}}</span></td>
+                        <tr></tr>                        
+                        <td class="Balanceador">Balanceador: <span class="valor {{class2}}">{{estadoBalanceador}}</span></td>
                         <tr></tr>   
-                        <td class="zona">Zona {{zona}}</td>
+                        <td class="zona">Zona: <span class="valor">{{zona}}</span></td>
                         <tr></tr>   
-                        <td class="procesos">Procesos Apache2 {{procesos}}</td>
+                        <td class="procesos">Apache2: <span class="valor">{{procesos}} </span>procesos</td>
                         <tr></tr>   
-                        <td class="memoria">Memoria libre {{memoria}} Mb.</td>
-                    </tr>
-                </thread>
+                        <td class="memoria">Memoria libre: <span class="valor">{{memoria}}</span> Mb.</td>
+                        <tr></tr>   
+                        <td class="porcentaje">
+                            Porcentaje: <span class="valor">{{porcentaje}}</span> Mb.
+                            <div class="progress" style="background-position:{{progress}}% 0"></div>
+                        </td>
+                </tbody>
             </table>
             {{/instances}}
 
-            <div class="ultimaAccion">Ultima accion de escalado.
+            <br />
+            <div class="ultimaAccion message {{ultimaAccion.class}}">Ultima accion de escalado.
                 <div class="descripcion">{{ultimaAccion.descripcion}}</div>                
                 <div class="hora">{{ultimaAccion.hora}}</div>                
                 <div class="estado">{{ultimaAccion.estado}}</div>
             </div>
-
         </div>
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
         <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.8.0.min.js"><\/script>')</script>
