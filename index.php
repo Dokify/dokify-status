@@ -99,10 +99,7 @@
 		$json['grupo']['ultimaAccion'] = array('descripcion' => $descripcion, 'hora' => $hora, 'estado' => $estado, 'class' => ($estado=="Successful"?'success':'error') );
 
 
-    	$format = (@$_GET['format'] == 1) ? 'xml' : 'json';
-    	$json = isset($_GET['format']) && $format === 'json';
-
-		if( in_array("application/json", httpaccepts()) || $json ) {
+		if( in_array("application/json", httpaccepts()) ) {
 			header('Access-Control-Allow-Origin: *');
 			header("Content-Type: application/json");
 
