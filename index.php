@@ -7,10 +7,16 @@
 		$awsSecretKey = @trim(get_cfg_var(AWS_KEY_SECRET));
 
 		$ec2 = new AmazonEC2(array("key" => $awsAccesKey, "secret"=>$awsSecretKey)); 
-		$s3 = new AmazonS3(array("key" => $awsAccesKey, "secret"=>$awsSecretKey));
+		$ec2->set_region(AmazonEC2::REGION_EU_W1);
+
+		//$s3 = new AmazonS3(array("key" => $awsAccesKey, "secret"=>$awsSecretKey));
 		$as = new AmazonAS(array("key" => $awsAccesKey, "secret"=>$awsSecretKey));
+		$as->set_region(AmazonAS::REGION_EU_W1);
+
 		$elb = new AmazonELB(array("key" => $awsAccesKey, "secret"=>$awsSecretKey));
-		$cw = new AmazonCloudWatch(array("key" => $awsAccesKey, "secret"=>$awsSecretKey));
+		$elb->set_region(AmazonELB::REGION_EU_W1);
+		
+		//$cw = new AmazonCloudWatch(array("key" => $awsAccesKey, "secret"=>$awsSecretKey));
 		$nombre_fichero = "statistics.log";
 		$ValorTotal=1700;
 
@@ -94,7 +100,11 @@
 		$estado = (string)$value->StatusCode;
 		$json['grupo']['ultimaAccion'] = array('descripcion' => $descripcion, 'hora' => $hora, 'estado' => $estado, 'class' => ($estado=="Successful"?'success':'error') );
 
-		if (in_array("text/html", httpaccepts())) {
+		if (in_array("application/json", httpaccepts())) {
+			header("Content-Type: application/json");
+			print json_encode($json['grupo']);
+
+		} else {
 			require './vendor/mustache/mustache/src/Mustache/Autoloader.php';
 			Mustache_Autoloader::register();
 
@@ -104,6 +114,5 @@
 		}
 		
 
-		header("Content-Type: application/json");
-		print json_encode($json['grupo']);
+
 ?> 
