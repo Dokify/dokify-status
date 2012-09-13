@@ -92,6 +92,7 @@ textarea {
 /* ==========================================================================
    Author's custom styles
    ========================================================================== */
+
 h1{
     font-size: 20px;
     color: #FF8000;
@@ -102,16 +103,71 @@ h1{
 }
 
 .instancia{
-    border: 1px solid #000;
     padding: 5px;
     margin: 5px;
 }
+
+.message{
+    -moz-border-radius:     5px;
+    -webkit-border-radius:  5px;
+    border-radius:          5px;
+    border-radius:          5px;
+    padding:                1.3em 1.7em;
+    display:                -moz-inline-stack;
+    display:                inline-block;
+    zoom:                   1;
+    *display:               inline;
+}
+
+.message.success{
+    border:                 1px solid #89b84f;
+    color:                  #FFF;
+    background-color:       #6a9f2c;
+    font-weight:            bold;
+}
+
+
+.message.error{
+    border:                 1px solid #CD0A0A;
+    color:                  #CD0A0A;
+    background-color:       #FEF1EC;
+    font-weight:            normal;
+}
+
+.message.highlight{
+    border:                 1px solid #FAD42E;
+    color:                  #363636;
+    background-color:       #fbec88;
+    font-weight:            normal;
+}
+
+.valor{
+    font-weight:            bold;
+}
+
+.valor.correcto{
+    color:                  #6a9f2c;
+}
+
+.valor.incorrecto{
+    color:                  #CD0A0A;
+}
 .nombre{
-    border: 1px solid #000;
+    font-size:              15px;
 }
 
 .ultimaAccion{
-    margin: 5px;
+    margin:                 5px;
+}
+
+.progress{
+    width:                  120px;
+    height:                 12px;
+    border:                 1px solid black;
+    border-width:           0 1px 0 1px;
+    background-image:       url("../img/progress.png");
+    background-repeat:      no-repeat; 
+    background-position:    100% 0;
 }
 
 /* ==========================================================================

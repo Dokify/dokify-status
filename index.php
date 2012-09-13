@@ -12,6 +12,7 @@
 		$elb = new AmazonELB(array("key" => $awsAccesKey, "secret"=>$awsSecretKey));
 		$cw = new AmazonCloudWatch(array("key" => $awsAccesKey, "secret"=>$awsSecretKey));
 		$nombre_fichero = "statistics.log";
+		$ValorTotal=1700;
 
 		//Abrir fichero log
 		$gestor = fopen($nombre_fichero, "r");
@@ -44,8 +45,10 @@
 				$zona = (string)$value->instancesSet->item->placement->availabilityZone;
 				$procesos = procesos($nombre, $arrayContenido);
 				$memoria = memoria($nombre, $arrayContenido); 
+				$porcentaje = ((100*$memoria)/1700);
+				$progress = 100-$porcentaje;
 				$estadoBalanceador = balanceador($nombre, $datosBalanceador);
-				$instance = array('nombre' => $nombre,'estado'  => $estado, 'zona' => $zona, 'procesos' => $procesos, 'memoria' => $memoria, 'estadoBalanceador' => $estadoBalanceador);
+				$instance = array('nombre' => $nombre,'estado' => $estado,'class' => ($estado=="running"?'correcto':'incorrecto'), 'zona' => $zona, 'procesos' => $procesos, 'memoria' => $memoria, 'estadoBalanceador' => $estadoBalanceador,'class2' => ($estadoBalanceador=="InService"?'correcto':'incorrecto'), 'porcentaje' => $porcentaje, 'progress'  => $progress);
 				$json['grupo']['instances'][]=$instance;
 			}
 		}
@@ -89,10 +92,10 @@
 		$descripcion = (string)$value->Description;	
 		$hora = (string)$value->StartTime;
 		$estado = (string)$value->StatusCode;
-		$json['grupo']['ultimaAccion'] = array('descripcion' => $descripcion, 'hora' => $hora, 'estado' => $estado);
+		$json['grupo']['ultimaAccion'] = array('descripcion' => $descripcion, 'hora' => $hora, 'estado' => $estado, 'class' => ($estado=="Successful"?'success':'error') );
 
 		if (in_array("text/html", httpaccepts())) {
-			require '/var/www/dokify-status/vendor/mustache/mustache/src/Mustache/Autoloader.php';
+			require './vendor/mustache/mustache/src/Mustache/Autoloader.php';
 			Mustache_Autoloader::register();
 
 			$m = new Mustache_Engine;
