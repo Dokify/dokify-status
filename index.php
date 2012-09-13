@@ -106,16 +106,7 @@
 			header('Access-Control-Allow-Origin: *');
 			header("Content-Type: application/json");
 
-			if( $json ){
-				$data = array('item' => array(
-                                array('value' => 123, 'text' => 'text'),
-                                array('value' => 103, 'text' => 'text'),
-                ));
-				print json_encode($data);
-				
-			} else {
-				print json_encode($json['grupo']);
-			}
+			print json_encode($json['grupo']);
 		} else {
 			require './vendor/mustache/mustache/src/Mustache/Autoloader.php';
 			Mustache_Autoloader::register();
