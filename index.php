@@ -17,18 +17,16 @@
 		$elb->set_region(AmazonELB::REGION_EU_W1);
 		
 		//$cw = new AmazonCloudWatch(array("key" => $awsAccesKey, "secret"=>$awsSecretKey));
-		$nombre_fichero = "statistics.log";
 		$ValorTotal=1700;
 
 		//Abrir fichero log
-		$gestor = fopen($nombre_fichero, "r");
 		$contenido = file_get_contents('http://status.dokify.net/statistics.log');
 		$arrayContenido = explode('/',$contenido);
 		foreach($arrayContenido as $clave=>$valor){
 			if($valor == end($arrayContenido)) unset($arrayContenido[$clave]);
 		}
 		$arrayContenido = array_merge($arrayContenido);
-		fclose($gestor);
+
 
 		$json = array();
 
@@ -100,10 +98,11 @@
 		$estado = (string)$value->StatusCode;
 		$json['grupo']['ultimaAccion'] = array('descripcion' => $descripcion, 'hora' => $hora, 'estado' => $estado, 'class' => ($estado=="Successful"?'success':'error') );
 
-		if (in_array("application/json", httpaccepts())) {
+
+		if( in_array("application/json", httpaccepts() )) {
+			header('Access-Control-Allow-Origin: *');
 			header("Content-Type: application/json");
 			print json_encode($json['grupo']);
-
 		} else {
 			require './vendor/mustache/mustache/src/Mustache/Autoloader.php';
 			Mustache_Autoloader::register();
@@ -112,7 +111,3 @@
 			echo $m->render(file_get_contents("plantilla.html"), $json['grupo']); 
 			exit();	
 		}
-		
-
-
-?> 
