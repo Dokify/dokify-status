@@ -4,7 +4,8 @@
 
 	class AWSAutoScaler extends AmazonAS {
 
-		private static $describe_auto_scaling_groups_data = array();
+		private static $describe_auto_scaling_groups_response = array();
+		private static $describe_scaling_activities_response = array();
 
 		public function __construct($aws, $credentials){
 			$this->aws = $aws;
@@ -17,12 +18,23 @@
 		}
 
 		public function getName(){
-			if( !$this->describe_auto_scaling_groups_data ) $this->describe_auto_scaling_groups_data = $this->describe_auto_scaling_groups();
-			return (string) $this->describe_auto_scaling_groups_data->body->DescribeAutoScalingGroupsResult->AutoScalingGroups->member->AutoScalingGroupName;
+			if( !self::$describe_auto_scaling_groups_response ) self::$describe_auto_scaling_groups_response = $this->describe_auto_scaling_groups();
+
+			return (string) self::$describe_auto_scaling_groups_response->body->DescribeAutoScalingGroupsResult->AutoScalingGroups->member->AutoScalingGroupName;
 		}
 
 		public function getCapacity(){
-			if( !$this->responseData ) $$this->describe_auto_scaling_groups_data = $this->describe_auto_scaling_groups();
-			return (int) $this->describe_auto_scaling_groups_data->body->DescribeAutoScalingGroupsResult->AutoScalingGroups->member->DesiredCapacity;
+			if( !self::$describe_auto_scaling_groups_response ) self::$describe_auto_scaling_groups_response = $this->describe_auto_scaling_groups();
+
+			return (int) self::$describe_auto_scaling_groups_response->body->DescribeAutoScalingGroupsResult->AutoScalingGroups->member->DesiredCapacity;
+		}
+
+		public function getLastActivity(){
+			if( !self::$describe_scaling_activities_response ) self::$describe_scaling_activities_response = $this->describe_scaling_activities();
+
+			$action = (array) self::$describe_scaling_activities_response->body->DescribeScalingActivitiesResult->Activities->member;
+			$action['Details'] = json_decode($action['Details']);
+
+			return (object) $action;
 		}
 	}

@@ -4,18 +4,28 @@
 
 	class AWSEC2Instance  {
 
-		private static $data;
+		const STATE_OK = 'running';
+
+		private $id;
+		private $state;
+		private $zone;
 
 		public function __construct($data){
-			$this->data = $data;
+			$this->id = (string) $data->instancesSet->item->instanceId;
+			$this->state = (string) $data->instancesSet->item->instanceState->name;
+			$this->zone = (string) $data->instancesSet->item->placement->availabilityZone;
 		}
 
-		public function getId(){
-			return (string) $this->data->instancesSet->item->instanceId;
+		public function isOk(){
+			return (bool) $this->getState() === self::STATE_OK;
 		}
 
-		public function getStatus(){
-			return (string) $this->data->instancesSet->item->instanceState->name;
+		public function __call($function, $arguments){
+			// vamos a ver sin por ejemplo la funcion getID() tiene una variable correspondiente
+			$varname = str_replace("get", "", strtolower($function));
+			if( isset($this->$varname) ) return $this->$varname;
+
+			return null;
 		}
 
 	}

@@ -15,9 +15,9 @@
 		}
 
 		public function getInstances($AutoScalerName = false){
-			if( !$this->describe_instances_data ) $this->describe_instances_data = $this->describe_instances();
+			if( !self::$describe_instances_data ) self::$describe_instances_data = $this->describe_instances();
 
-			$instances = $this->describe_instances_data->body->reservationSet->item;
+			$instances = self::$describe_instances_data->body->reservationSet->item;
 
 			if( $AutoScalerName ){
 				$groupInstances = array();
