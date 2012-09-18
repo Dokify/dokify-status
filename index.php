@@ -2,9 +2,13 @@
 		const AWS_KEY_ACCESS = "aws.s3_access";
 		const AWS_KEY_SECRET = "aws.s3_secret";
 		require_once ('AWSSDKforPHP/sdk.class.php');
-		//require_once ('../config.php');
+
 		$awsAccesKey = @trim(get_cfg_var(AWS_KEY_ACCESS));
 		$awsSecretKey = @trim(get_cfg_var(AWS_KEY_SECRET));
+
+		if( !$awsAccesKey || !$awsSecretKey ){
+			die('<pre>Please, set aws credentials</pre>');
+		}
 
 		$ec2 = new AmazonEC2(array("key" => $awsAccesKey, "secret"=>$awsSecretKey)); 
 		$ec2->set_region(AmazonEC2::REGION_EU_W1);
