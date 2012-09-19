@@ -2,16 +2,17 @@
 
 	require_once 'AWSSDKforPHP/sdk.class.php';
 	require_once dirname(__FILE__) . '/AWSAutoScaler.class.php';
+	require_once dirname(__FILE__) . '/AWSLoadBalancer.class.php';
 	require_once dirname(__FILE__) . '/AWSEC2.class.php';
 
 	class AWSStatus {
 		const KEY_ACCESS = "aws.s3_access";
 		const KEY_SECRET = "aws.s3_secret";
-		const LOAD_BALANCER_NAME = 'dokifyloadbalancer';
 		const DEFAULT_REGION = 'REGION_EU_W1';
 
 		static $AutoScaler;
 		static $EC2;
+		static $LoadBalancer;
 		static $data = array();
 
 		public function getAutoScaler(){
@@ -30,6 +31,15 @@
 			}
 
 			return self::$EC2;
+		}
+
+		public function getLoadBalancer(){
+			if( !self::$LoadBalancer){
+				self::$LoadBalancer = new AWSLoadBalancer($this, array("key" => $this->getKey(), "secret" => $this->getSecret()));
+				self::$LoadBalancer->set_region(constant('AmazonELB::'.self::DEFAULT_REGION));
+			}
+
+			return self::$LoadBalancer;
 		}
 
 
