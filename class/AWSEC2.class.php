@@ -8,7 +8,6 @@
 
 		protected $aws;
 		private static $describe_instances_data = array();
-		private $contenido;
 
 		public function __construct($aws, $credentials){
 			$this->aws = $aws;

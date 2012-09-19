@@ -5,13 +5,16 @@
 	class AWSEC2Instance  {
 
 		const STATE_OK = 'running';
-		const STATE_UNKNOWN = 'unknown';
+		const STATE_UNKNOWN = 'state_unknown';
+		const MEM_UNKNOWN = 'mem_unknown';
+		const PROC_UNKNOWN = 'proc_unknown';
+		const RUTA_FICHERO = 'http://status.dokify.net/statistics_json.log';
 
 		private $aws;
 		private $id;
 		private $state;
 		private $zone;
-		private $balancerStatus=null;
+		private $datosFichero=null;
 
 		public function __construct($aws, $data){
 			$this->aws = $aws;
@@ -27,6 +30,65 @@
 			}
 			return self::STATE_UNKNOWN;
 		}
+
+		private function leerFichero($ruta){
+			$datos = file_get_contents($ruta);
+			return $datos;
+		}
+
+		public function getMemoria(){
+			if ( $this->datosFichero == null ){
+				$this->datosFichero = json_decode($this->leerFichero(self::RUTA_FICHERO));		
+			}
+			foreach($this->datosFichero as $instance){
+					$instanceId = $instance->nombre;
+					if( $instanceId === $this->id ){
+						return $instance->memoria;
+					}
+				}
+			return self::MEM_UNKNOWN;
+		}
+
+		public function getProcesos(){
+			if ( $this->datosFichero == null ){
+
+				$this->datosFichero = json_decode($this->leerFichero(self::RUTA_FICHERO));		
+			}
+			foreach($this->datosFichero as $instance){
+					$instanceId = $instance->nombre;
+					if( $instanceId === $this->id ){
+						return $instance->conexiones;
+					}
+				}
+			return self::PROC_UNKNOWN;
+		}
+
+		public function getCpu(){
+			if ( $this->datosFichero == null ){
+
+				$this->datosFichero = json_decode($this->leerFichero(self::RUTA_FICHERO));		
+			}
+			foreach($this->datosFichero as $instance){
+					$instanceId = $instance->nombre;
+					if( $instanceId === $this->id ){
+						return $instance->cpu;
+					}
+				}
+			return self::PROC_UNKNOWN;
+		}
+
+		public function getProgress(){
+			$por = self::getPorcentaje();
+ 			$progress = 100-$por;
+ 			return $progress;
+		}
+
+		public function getPorcentaje(){
+			$mem = self::getMemoria();
+			$por = round(((100*$mem)/1700));
+			return $por;
+		}
+
 
 		public function isOk(){
 			return (bool) $this->getState() === self::STATE_OK;
