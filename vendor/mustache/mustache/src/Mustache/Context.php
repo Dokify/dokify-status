@@ -134,7 +134,7 @@ class Mustache_Context
     {
         for ($i = count($stack) - 1; $i >= 0; $i--) {
             if (is_object($stack[$i])) {
-                if (method_exists($stack[$i], $id)) {
+                if (method_exists($stack[$i], $id) || is_callable(array($stack[$i], $id)) ) {
                     return $stack[$i]->$id();
                 } elseif (isset($stack[$i]->$id)) {
                     return $stack[$i]->$id;

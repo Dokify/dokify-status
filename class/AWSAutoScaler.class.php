@@ -29,12 +29,28 @@
 			return (int) self::$describe_auto_scaling_groups_response->body->DescribeAutoScalingGroupsResult->AutoScalingGroups->member->DesiredCapacity;
 		}
 
+		public function getDescription(){
+			$action = self::getLastActivity();
+			return $action->Description;
+		}
+
 		public function getLastActivity(){
 			if( !self::$describe_scaling_activities_response ) self::$describe_scaling_activities_response = $this->describe_scaling_activities();
 
 			$action = (array) self::$describe_scaling_activities_response->body->DescribeScalingActivitiesResult->Activities->member;
 			$action['Details'] = json_decode($action['Details']);
-
 			return (object) $action;
+		}
+
+		public function __get($name){
+			return $this->$name=$this->$name();
+		}
+
+		public function __call($function, $arguments){
+			// vamos a ver sin por ejemplo la funcion getID() tiene una variable correspondiente
+			$varname = str_replace("get", "", strtolower($function));
+			if( isset($this->$varname) ) return $this->$varname;
+
+			return null;
 		}
 	}

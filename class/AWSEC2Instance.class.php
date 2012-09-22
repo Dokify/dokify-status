@@ -89,9 +89,26 @@
 			return $por;
 		}
 
+		public function getStatusClass(){
+			$class = array();
+			$class[] = $this->getState()=="running"?'correcto':'incorrecto';
+			return implode(" ", $class); 
+		}
+
+		public function getBalancerClass(){
+			$class = array();
+			$class[] = $this->getBalancerStatus()=="InService"?'correcto':'incorrecto';
+			return implode(" ", $class); 
+		}
+
 
 		public function isOk(){
 			return (bool) $this->getState() === self::STATE_OK;
+		}
+
+
+		public function __get($name){
+			return $this->$name=$this->$name();
 		}
 
 		public function __call($function, $arguments){
