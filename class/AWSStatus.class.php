@@ -9,10 +9,12 @@
 		const KEY_ACCESS = "aws.s3_access";
 		const KEY_SECRET = "aws.s3_secret";
 		const DEFAULT_REGION = 'REGION_EU_W1';
+		const METRICS_FILE = 'http://status.dokify.net/statistics_json.log';
 
 		static $AutoScaler;
 		static $EC2;
 		static $LoadBalancer;
+		static $MetricsData;
 		static $data = array();
 
 		public function getAutoScaler(){
@@ -40,6 +42,33 @@
 			}
 
 			return self::$LoadBalancer;
+		}
+
+		public function getMetricData($id = NULL){
+			if( !self::$MetricsData ){
+				$filedata = file_get_contents(AWSStatus::METRICS_FILE);
+				self::$MetricsData = json_decode($filedata);
+
+				if( $code = json_last_error() ){
+					throw new Exception("error parsing json [$code]");
+				}
+			}
+
+			$instances = self::$MetricsData;
+
+			if( !$instances || !count($instances) ) return false;
+
+			if( $id ){
+				foreach($instances as $instance){
+					if($instance->nombre === $id){
+						return $instance;
+					}
+				}
+
+				return false;
+			}
+
+			return $instances;
 		}
 
 

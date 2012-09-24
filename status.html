@@ -26,24 +26,29 @@
 
 
         <div id="principal">
-            
-            <h1 it="titulo">{{getcapacity}} instancias en {{getname}}</div>
-            
 
             {{#instances}}
             <table class="instancia message highlight">
                 <tbody>                        
-                        <tr><td class="nombre">Instancia <span class="valor">{{getId}}</span></td></tr>        
-                        <tr><td class="estado">Estado: <span class="valor {{getStatusClass}}">{{getstate}}</span></td></tr>              
-                        <tr><td class="Balanceador">Balanceador: <span class="valor {{getBalancerClass}}">{{getBalancerStatus}}</span></td></tr>
-                        <tr><td class="zona">Zona: <span class="valor">{{getzone}}</span></td></tr>
-                        <tr><td class="procesos">Apache22: <span class="valor">{{getprocesos}} </span>procesos</td></tr>
-                        <tr><td class="procesos">Uso CPU: <span class="valor">{{getcpu}} </span></td></tr>
-                        <tr><td class="memoria">Memoria</tr>   
+                        <tr><td class="nombre">Instancia <span class="valor">{{id}}</span></td></tr>        
+                        <tr><td class="estado">Estado: <span class="valor {{class}}">{{state}}</span></td></tr>
+                        {{#balancer}} 
+                        <tr><td class="Balanceador">Balanceador: <span class="valor {{class}}">{{status}}</span></td></tr>
+                        {{/balancer}} 
+                        <tr><td class="zona">Zona: <span class="valor">{{zone}}</span></td></tr>
+                        <tr><td class="procesos">Conexiones: <span class="valor">{{connections}} </span></td></tr>
+                        <tr><td class="procesos">Uso CPU: <span class="valor">{{cpu}}% </span></td></tr>
+
+                        {{#memory}} 
+                        <tr><td class="memoria">Memoria: <span class="valor">{{average}}%</span></td></tr>  
+                        {{/memory}} 
+
+                        <!--
                         <td class="porcentaje">
-                            <div class="progress" style="background-position:{{getProgress}}% 0"><span class="porcentaje valor">{{getmemoria}}/1700</span></div>
-                            <span class="valor">{{getporcentaje}}%</span> libre.
+                            <div class="progress" style="background-position:0% 0"><span class="porcentaje valor">0/1700</span></div>
+                            <span class="valor"></span> en uso.
                         </td>
+                        -->
                 </tbody>
             </table>
             {{/instances}}
@@ -51,18 +56,12 @@
             <br />
             {{#action}}
             <div class="ultimaAccion message {{class}}">Ultima accion de escalado.
-                <div class="descripcion">{{getdescription}}</div>                
-                <div class="hora">{{gethora}}</div>                
-                <div class="estado">{{getestado}}</div>
+                <div class="descripcion">{{Description}}</div>                
+                <div class="hora">{{StartTime}}</div>                
+                <div class="estado">{{StatusCode}}</div>
             </div>
             {{/action}}
 
-        </div>
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
-        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.8.0.min.js"><\/script>')</script>
-        <script src="js/plugins.js"></script>
-        <script src="js/main.js"></script>
-
-        
+        </div>        
     </body>
 </html>

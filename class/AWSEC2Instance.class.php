@@ -8,7 +8,6 @@
 		const STATE_UNKNOWN = 'state_unknown';
 		const MEM_UNKNOWN = 'mem_unknown';
 		const PROC_UNKNOWN = 'proc_unknown';
-		const RUTA_FICHERO = 'http://status.dokify.net/statistics_json.log';
 
 		private $aws;
 		private $id;
@@ -23,57 +22,60 @@
 			$this->zone = (string) $data->instancesSet->item->placement->availabilityZone;
 		}
 
+		public function toArray(){
+			$data = array();
+			$data['id'] = $this->id;
+			$data['state'] = $this->state;
+			$data['class'] = $this->getStatusClass();
+			$data['zone'] = $this->state;
+			$data['balancer'] = array(
+				"class" => $this->getBalancerClass(),
+				"status" => $this->getBalancerStatus()
+			);
+
+			$data['connections'] = $this->getProcesos();
+			$data['cpu'] = $this->getCpu();
+			$data['memory'] = array(
+				"used" => $this->getMemoria(),
+				"average" => $this->getPorcentaje()
+			);
+
+			return $data;
+		}
+
 		public function getBalancerStatus(){
 			$instanceHealth = $this->aws->getLoadBalancer()->getInstances($this->id);
 			if ($instanceHealth){
-				return $instanceHealth->State;
+				return (string) $instanceHealth->State;
 			}
 			return self::STATE_UNKNOWN;
 		}
 
-		private function leerFichero($ruta){
-			$datos = file_get_contents($ruta);
-			return $datos;
+		public function getMetricData(){
+			return $this->aws->getMetricData($this->id);
 		}
 
 		public function getMemoria(){
-			if ( $this->datosFichero == null ){
-				$this->datosFichero = json_decode($this->leerFichero(self::RUTA_FICHERO));		
+			if( $data = $this->getMetricData($this->id) ){
+				return $data->memoria;
 			}
-			foreach($this->datosFichero as $instance){
-					$instanceId = $instance->nombre;
-					if( $instanceId === $this->id ){
-						return $instance->memoria;
-					}
-				}
-			return self::MEM_UNKNOWN;
+			
+			return 0;
 		}
 
 		public function getProcesos(){
-			if ( $this->datosFichero == null ){
-
-				$this->datosFichero = json_decode($this->leerFichero(self::RUTA_FICHERO));		
+			if( $data = $this->getMetricData($this->id) ){
+				return $data->conexiones;
 			}
-			foreach($this->datosFichero as $instance){
-					$instanceId = $instance->nombre;
-					if( $instanceId === $this->id ){
-						return $instance->conexiones;
-					}
-				}
+
 			return self::PROC_UNKNOWN;
 		}
 
 		public function getCpu(){
-			if ( $this->datosFichero == null ){
-
-				$this->datosFichero = json_decode($this->leerFichero(self::RUTA_FICHERO));		
+			if( $data = $this->getMetricData($this->id) ){
+				return $data->cpu;
 			}
-			foreach($this->datosFichero as $instance){
-					$instanceId = $instance->nombre;
-					if( $instanceId === $this->id ){
-						return $instance->cpu;
-					}
-				}
+
 			return self::PROC_UNKNOWN;
 		}
 

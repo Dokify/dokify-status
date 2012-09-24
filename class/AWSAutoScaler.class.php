@@ -39,11 +39,8 @@
 
 			$action = (array) self::$describe_scaling_activities_response->body->DescribeScalingActivitiesResult->Activities->member;
 			$action['Details'] = json_decode($action['Details']);
+			$action['class'] = ( $action['StatusCode'] == 'Successful' ) ? 'success' : 'highlight';
 			return (object) $action;
-		}
-
-		public function __get($name){
-			return $this->$name=$this->$name();
 		}
 
 		public function __call($function, $arguments){
