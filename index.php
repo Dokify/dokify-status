@@ -2,6 +2,9 @@
 
 	require 'config.php';
 
+
+	$cache = dirname(__FILE__) . "/" . AWSStatus::CACHE_FILE;
+	
 	if( isset($_SERVER['argv']) && isset($_SERVER['argv'][1]) && $_SERVER['argv'][1] === 'cache' ){
 
 		$aws = new AWSStatus();
@@ -20,9 +23,9 @@
 
 		$cache['action'] = (array) $action;
 
-		file_put_contents(AWSStatus::CACHE_FILE, json_encode($cache));
+		file_put_contents($cache, json_encode($cache));
 	} else {
-		$data = json_decode(file_get_contents(AWSStatus::CACHE_FILE));
+		$data = json_decode(file_get_contents($cache));
 		$m = new Mustache_Engine;
 		echo $m->render(file_get_contents("status.html"), $data);
 	}	
