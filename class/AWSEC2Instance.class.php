@@ -8,6 +8,7 @@
 		const STATE_UNKNOWN = 'state_unknown';
 		const MEM_UNKNOWN = 'mem_unknown';
 		const PROC_UNKNOWN = 'proc_unknown';
+		const OFF = 'off';
 
 		private $aws;
 		private $id;
@@ -27,7 +28,7 @@
 			$data['id'] = $this->id;
 			$data['state'] = $this->state;
 			$data['class'] = $this->getStatusClass();
-			$data['zone'] = $this->state;
+			$data['zone'] = $this->zone;
 			$data['balancer'] = array(
 				"class" => $this->getBalancerClass(),
 				"status" => $this->getBalancerStatus()
@@ -51,7 +52,7 @@
 			if ($instanceHealth){
 				return (string) $instanceHealth->State;
 			}
-			return self::STATE_UNKNOWN;
+			return self::OFF;
 		}
 
 		public function getMetricData(){
