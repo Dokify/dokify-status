@@ -32,9 +32,9 @@
                 <tbody>                        
                         <tr><td class="nombre">Instancia </td><td class="valor">{{id}}</td></tr>        
                         <tr><td class="estado">Estado</td><td class="valor {{class}}">{{state}}</td></tr>
-                        {{#balancer}} 
+                        {{#balancer}}
                         <tr><td class="Balanceador">Balanceador</td><td class="valor {{class}}">{{status}}</td></tr>
-                        {{/balancer}} 
+                        {{/balancer}}
                         <tr><td class="zona">Zona</td><td class="valor">{{zone}}</td></tr>
                         <tr><td class="procesos">Conexiones</td><td class="valor">{{connections}} </td></tr>
                         <tr><td class="procesos">Uso CPU</td><td class="valor">{{cpu}}% </td></tr>
@@ -45,7 +45,7 @@
 
                         <tr>
                             <td>Carga </td>
-                            <td class="valor"><div class="progress" style="background-position:{{load}}% 0;"><div class="porcentaje valor">{{load}}%</div></div></td>
+                            <td class="valor"><div class="progress" style="background-position:{{free}}% 0;"><div class="porcentaje valor">{{load}}%</div></div></td>
                         </tr>
                 </tbody>
             </table>

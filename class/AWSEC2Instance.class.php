@@ -41,6 +41,7 @@
 			);
 
 			$data['load'] = $this->getLoadAverage();
+			$data['free'] = 100 - $data['load'];
 
 			return $data;
 		}
