@@ -40,6 +40,8 @@
 				"average" => $this->getPorcentaje()
 			);
 
+			$data['load'] = $this->getLoadAverage();
+
 			return $data;
 		}
 
@@ -53,6 +55,15 @@
 
 		public function getMetricData(){
 			return $this->aws->getMetricData($this->id);
+		}
+
+
+		public function getLoadAverage(){
+			if( $data = $this->getMetricData($this->id) ){
+				return $data->average->load;
+			}
+			
+			return 0;
 		}
 
 		public function getMemoria(){

@@ -9,7 +9,8 @@
 		const KEY_ACCESS = "aws.s3_access";
 		const KEY_SECRET = "aws.s3_secret";
 		const DEFAULT_REGION = 'REGION_EU_W1';
-		const METRICS_FILE = 'http://status.dokify.net/statistics_json.log';
+		const METRICS_FILE = 'http://status.dokify.net/statistics.json';
+		const CACHE_FILE = 'cache.json';
 
 		static $AutoScaler;
 		static $EC2;

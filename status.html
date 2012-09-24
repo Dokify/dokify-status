@@ -30,25 +30,23 @@
             {{#instances}}
             <table class="instancia message highlight">
                 <tbody>                        
-                        <tr><td class="nombre">Instancia <span class="valor">{{id}}</span></td></tr>        
-                        <tr><td class="estado">Estado: <span class="valor {{class}}">{{state}}</span></td></tr>
+                        <tr><td class="nombre">Instancia </td><td class="valor">{{id}}</td></tr>        
+                        <tr><td class="estado">Estado</td><td class="valor {{class}}">{{state}}</td></tr>
                         {{#balancer}} 
-                        <tr><td class="Balanceador">Balanceador: <span class="valor {{class}}">{{status}}</span></td></tr>
+                        <tr><td class="Balanceador">Balanceador</td><td class="valor {{class}}">{{status}}</td></tr>
                         {{/balancer}} 
-                        <tr><td class="zona">Zona: <span class="valor">{{zone}}</span></td></tr>
-                        <tr><td class="procesos">Conexiones: <span class="valor">{{connections}} </span></td></tr>
-                        <tr><td class="procesos">Uso CPU: <span class="valor">{{cpu}}% </span></td></tr>
+                        <tr><td class="zona">Zona</td><td class="valor">{{zone}}</td></tr>
+                        <tr><td class="procesos">Conexiones</td><td class="valor">{{connections}} </td></tr>
+                        <tr><td class="procesos">Uso CPU</td><td class="valor">{{cpu}}% </td></tr>
 
                         {{#memory}} 
-                        <tr><td class="memoria">Memoria: <span class="valor">{{average}}%</span></td></tr>  
+                        <tr><td class="memoria">Memoria</td><td class="valor">{{average}}%</td></tr>  
                         {{/memory}} 
 
-                        <!--
-                        <td class="porcentaje">
-                            <div class="progress" style="background-position:0% 0"><span class="porcentaje valor">0/1700</span></div>
-                            <span class="valor"></span> en uso.
-                        </td>
-                        -->
+                        <tr>
+                            <td>Carga </td>
+                            <td class="valor"><div class="progress" style="background-position:{{load}}% 0;"><div class="porcentaje valor">{{load}}%</div></div></td>
+                        </tr>
                 </tbody>
             </table>
             {{/instances}}

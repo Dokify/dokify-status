@@ -20,9 +20,9 @@
 
 		$cache['action'] = (array) $action;
 
-		file_put_contents('cache.json', json_encode($cache));
+		file_put_contents(AWSStatus::CACHE_FILE, json_encode($cache));
 	} else {
-		$data = json_decode(file_get_contents('cache.json'));
+		$data = json_decode(file_get_contents(AWSStatus::CACHE_FILE));
 		$m = new Mustache_Engine;
 		echo $m->render(file_get_contents("status.html"), $data);
 	}	

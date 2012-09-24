@@ -145,6 +145,8 @@ h1{
     font-weight:            bold;
 }
 
+td.valor { padding-left: 2em; }
+
 .valor.correcto{
     color:                  #6a9f2c;
 }
@@ -175,7 +177,9 @@ h1{
 }
 
 .porcentaje.valor{
-    margin:                 31px;
+   text-align: center;
+   font-size: 10px;
+   line-height: 18px;
 }
 
 /* ==========================================================================
