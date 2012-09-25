@@ -70,7 +70,7 @@
 
 		public function getMemoria(){
 			if( $data = $this->getMetricData($this->id) ){
-				return $data->memoria;
+				return $data->memoria->used;
 			}
 			
 			return 0;
