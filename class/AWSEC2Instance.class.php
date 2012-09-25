@@ -38,7 +38,7 @@
 			$data['cpu'] = $this->getCpu();
 			$data['memory'] = array(
 				"used" => $this->getMemoria(),
-				"average" => $this->getPorcentaje()
+				"percentage" => $this->getPorcentaje()
 			);
 
 			$data['load'] = $this->getLoadAverage();
