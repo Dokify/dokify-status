@@ -33,6 +33,7 @@
 
 
 		$json = array();
+		
 
 		$balanceador = 'dokifyloadbalancer';
 		$datosBalanceador = $elb->describe_instance_health($balanceador);
