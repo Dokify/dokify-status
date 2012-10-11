@@ -1,5 +1,6 @@
 # Dokify Status
 
 Plantilla para monitorizar maquinas en AWS.
-[![Build Status](https://secure.travis-ci.org/xaviervia/fast.png)](http://travis-ci.org/xaviervia/fast)
+[![Build Status](https://secure.travis-ci.org/albertoprad/dokify-status.png)](http://travis-ci.org/albertoprad/dokify-status)
+
 
