@@ -22,7 +22,8 @@
 		}
 
 		$cache['action'] = (array) $action;
-
+		echo('cache');
+		echo($cache['action']);
 		file_put_contents($cachePath, json_encode($cache));
 	} else {
 		$data = json_decode(file_get_contents($cachePath));
