@@ -24,7 +24,14 @@
 		$cache['action'] = (array) $action;
 		echo('cache');
 		echo($cache['action']);
-		file_put_contents($cachePath, json_encode($cache));
+		$json=json_encode($cache);
+		file_put_contents($cachePath, $json);
+		$persist="/var/dokify/dev-tools/persist.php";
+		if (file_exists($persist)){
+			$_SERVER['argv'][1]="aws-status";
+			$_SERVER['argv'][2]=$json;
+			require $persist;
+		}
 	} else {
 		$data = json_decode(file_get_contents($cachePath));
 		$m = new Mustache_Engine;
