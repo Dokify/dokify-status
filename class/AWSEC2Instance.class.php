@@ -64,15 +64,23 @@
 			if( $data = $this->getMetricData($this->id) ){
 				return $data->average->load;
 			}
-			
 			return 0;
+
 		}
 
 		public function getMemoria(){
 			if( $data = $this->getMetricData($this->id) ){
 				return $data->memoria->used;
 			}
-			
+
+			return 0;
+		}
+
+		public function getTotal(){
+			if( $data = $this->getMetricData($this->id) ){
+				return $data->memoria->total;
+			}
+
 			return 0;
 		}
 
@@ -100,7 +108,8 @@
 
 		public function getPorcentaje(){
 			$mem = self::getMemoria();
-			$por = round(((100*$mem)/1700));
+			$tot = self::getTotal();
+			$por = round(((100*$mem)/$tot));
 			return $por;
 		}
 
