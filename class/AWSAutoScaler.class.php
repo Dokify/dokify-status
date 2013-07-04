@@ -14,13 +14,29 @@
 
 		public function getInstances(){
 			$ec2 = $this->aws->getEC2();
-			return $ec2->getInstances($this->getName());
+			$nombres = $this->getName();
+			$instances = array();
+			
+			foreach ($nombres as $nombre) {
+				$instances = array_merge($ec2->getInstances($nombre), $instances);
+			}
+
+			return $instances;
 		}
 
 		public function getName(){
 			if( !self::$describe_auto_scaling_groups_response ) self::$describe_auto_scaling_groups_response = $this->describe_auto_scaling_groups();
 
-			return (string) self::$describe_auto_scaling_groups_response->body->DescribeAutoScalingGroupsResult->AutoScalingGroups->member->AutoScalingGroupName;
+			$groups = self::$describe_auto_scaling_groups_response->body->DescribeAutoScalingGroupsResult->AutoScalingGroups->member;
+
+			$groupNames = array();
+			
+			foreach($groups as $group){
+				$name = (string) $group->AutoScalingGroupName;
+				$groupNames[] = $name;				
+			}
+
+			return $groupNames;
 		}
 
 		public function getCapacity(){
