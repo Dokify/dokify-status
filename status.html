@@ -1,65 +1,49 @@
-<!DOCTYPE html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <title>Dokify Service Health Monitor</title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width">
-
-        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
-
-        <link rel="stylesheet" href="css/normalize.css">
-        <link rel="stylesheet" href="css/main.css">
-        <!--<script src="js/vendor/modernizr-2.6.1.min.js"></script>-->
-
-    </head>
-    <body>
-        <!--[if lt IE 7]>
-            <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
-        <![endif]-->
-
-        <!-- Add your site or application content here -->
-
-
-        <div id="principal">
-
-            {{#instances}}
-            <table class="instancia message highlight">
-                <tbody>                        
-                        <tr><td class="nombre">Instancia </td><td class="valor">{{id}}</td></tr>        
-                        <tr><td class="estado">Estado</td><td class="valor {{class}}">{{state}}</td></tr>
-                        {{#balancer}}
-                        <tr><td class="Balanceador">Balanceador</td><td class="valor {{class}}">{{status}}</td></tr>
-                        {{/balancer}}
-                        <tr><td class="zona">Zona</td><td class="valor">{{zone}}</td></tr>
-                        <tr><td class="procesos">Conexiones</td><td class="valor">{{connections}} </td></tr>
-                        <tr><td class="procesos">Uso CPU</td><td class="valor">{{cpu}}% </td></tr>
-
-                        {{#memory}} 
-                        <tr><td class="memoria">Memoria</td><td class="valor">{{percentage}}%</td></tr>  
-                        {{/memory}} 
-
-                        <tr>
-                            <td>Carga </td>
-                            <td class="valor"><div class="progress" style="background-position:{{free}}% 0;"><div class="porcentaje valor">{{load}}%</div></div></td>
-                        </tr>
-                </tbody>
-            </table>
-            {{/instances}}
-
-            <br />
-            {{#action}}
-            <div class="ultimaAccion message {{class}}">Ultima accion de escalado.
-                <div class="descripcion">{{Description}}</div>                
-                <div class="hora">{{StartTime}}</div>                
-                <div class="estado">{{StatusCode}}</div>
+{% include 'header.html' with {'page': 'status', 'title': 'system status', 'description': 'Dokify service status'} %}
+        
+    <section id="main-image" class="small {% if problems %}red{% else %}green{% endif %}">
+        <div class="row">
+            <div class="twelve columns text-center">
+                <hgroup>
+                    <h2>system status</h2>
+                </hgroup>
             </div>
-            {{/action}}
+        </div>
+    </section>
 
-        </div>        
-    </body>
-</html>
+    <section id="breadcrumb">
+        <ul class="row breadcrumbs">
+            <li class="home"><a href="/"></a></li>
+            <li><a href="/status">System status</a></li>
+        </ul>
+    </section>
+
+    <section class="row mobile-padding mobile-margin-zero">
+        <div class="twelve columns text-center mtop-twenty">
+            {% if problems %}
+                <h3 class="red">
+                    Looks like something is wrong!
+                </h3>
+                <h5 class="red">
+                    We are investigating the issue
+                </h5>
+            {% else %}
+                <h3 class="green">
+                   All systems working propertly
+                </h3>
+            {% endif %}
+        </div>
+    </section>
+    <hr class="row line-section mtop-twenty" />
+
+    <section class="row mobile-padding mobile-margin-zero mbottom-thirty">
+        <div class="twelve columns text-center mtop-twenty">
+            <p>
+            Running {{ running | length }} machine(s) - {{ loadAvg }}% load average
+            </p>
+
+            <p>
+            Last action: <strong>{{ action.text }}</strong> at <strong>{{ action.time | date ("Y/m/d h:i") }}</strong>
+            </p>
+        </div>
+    </section>
+{% include 'footer.html' %}
