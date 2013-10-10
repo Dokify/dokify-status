@@ -1,10 +1,11 @@
 <?php
 
-	require 'config.php';
-
+	require_once 'config.php';
 
 	$cachePath = dirname(__FILE__) . "/" . AWSStatus::CACHE_FILE;
-	
+	$loader = new Twig_Loader_Filesystem(dirname(__FILE__));
+	$twig = new Twig_Environment($loader);
+
 	if( isset($_SERVER['argv']) && isset($_SERVER['argv'][1]) && $_SERVER['argv'][1] === 'cache' ){
 
 		$aws = new AWSStatus();
@@ -20,7 +21,6 @@
 		foreach( $instances as $instance) {
 			$cache['instances'][] = $instance->toArray();
 		}
-
 		$cache['action'] = (array) $action;
 		echo('cache');
 		echo($cache['action']);
@@ -32,20 +32,51 @@
 			$_SERVER['argv'][2]=$json;
 			require $persist;
 		}
-	} else {
-		$data = json_decode(file_get_contents($cachePath));
-		$m = new Mustache_Engine;
-		echo $m->render(file_get_contents("status.html"), $data);
-	}	
+	} else { 
+
+		$awsStatus = json_decode(file_get_contents($cachePath)); 
+		$running = $terminated = $wrong = array();
+		$load = array();
+		$loadAvg = 0;
+
+		foreach ($awsStatus->instances as $instance) {
+			switch ($instance->state) {
+				case 'running': // --- normal, running machine
+					$running[] = $instance;
+					break;
+
+				case 'terminated': // --- normal, aws autoscaler
+					$terminated[] = $instance;
+					break;
+
+				default: // --- something is wrong
+					$wrong[] = $instance;
+					break;
+			}
+		}
+
+		if (count($running)) {
+			foreach ($running as $machine) {
+				$load[] = (float) $machine->cpu;
+				$load[] = (float) $machine->memory->percentage;
+			}
+
+			$loadAvg = array_sum($load) / count($load);
+		}
+
+		$vars['loadAvg'] = $loadAvg;
+		$vars['running'] = $running;
+		$vars['terminated'] = $terminated;
+		$vars['wrong'] = $wrong;
+
+		$vars['problems'] = count($wrong) || !count($running);
+
+		$vars['action'] = array(
+			'text' => $awsStatus->action->Description,
+			'time' => strtotime($awsStatus->action->StartTime)
+		);
+	}
 
 
-	/*if( in_array("application/json", httpaccepts()) ) {
-		header('Access-Control-Allow-Origin: *');
-		header("Content-Type: application/json");
-		print json_encode($json['grupo']);
-	} else {
-		require './vendor/mustache/mustache/src/Mustache/Autoloader.php';
-		Mustache_Autoloader::register();
-		$m = new Mustache_Engine;
-		echo $m->render(file_get_contents("plantilla.html"), $json['grupo']); 
-	}*/
+	echo $twig->render('status.html', $vars);
+	

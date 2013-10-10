@@ -35,7 +35,6 @@
 	} else { 
 
 		$awsStatus = json_decode(file_get_contents($cachePath)); 
-
 		$running = $terminated = $wrong = array();
 		$load = array();
 		$loadAvg = 0;
@@ -55,7 +54,6 @@
 					break;
 			}
 		}
-
 
 		if (count($running)) {
 			foreach ($running as $machine) {
