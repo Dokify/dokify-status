@@ -1,0 +1,86 @@
+<div id="start" class="reveal-modal expand">
+                        {% include 'web/comenzar.html' %}
+                        <a class="close-reveal-modal"></a>
+                    </div>
+                </div> {# -- END OF ROLE MAIN -- #}
+            </div> {# -- END OF WRAPPER -- #}
+
+                
+            <footer class="hide-on-print">
+                <section id="footer-main">
+                    <div class="row medium-padding">
+                        <div class="column two mobile-hide">
+                            <img src="{{cdn}}/img/shared/logo-footer.png" id="footer-logo" alt="footer-logo" width="105" height="88" />
+                            <span class="copy">© dokify 2013</span>
+                        </div>
+                        <ul class="column two mobile-one">
+                            <li><a href="/" class="title">dokify</a></li>
+                            <li><a href="/que-es.php">{% trans %}qué es{% endtrans %}</a></li>
+                            <li><a href="/que-ofrece.php">{% trans %}qué ofrece{% endtrans %}</a></li>
+                            <li><a href="/como-funciona.php">{% trans %}cómo funciona{% endtrans %}</a></li>
+                            <li><a href="/planes-y-precios.php">{% trans %}planes y precios{% endtrans %}</a></li>
+                            
+                        </ul>
+                        <ul class="column two mobile-one">
+                            <li><a href="/nosotros.php" class="title">{% trans %}nosotros{% endtrans %}</a></li>
+                            <li><a href="/seguridad.php">{% trans %}seguridad{% endtrans %}</a></li>                            
+                            <li><a href="/experiencia.php">{% trans %}experiencia{% endtrans %}</a></li>
+                            <li><a href="/servicios.php">{% trans %}servicios{% endtrans %}</a></li>
+                            <li><a href="/blog/">blog</a></li>
+                        </ul>
+                        <div class="column two mobile-one">
+                            <ul>
+                                <li><a href="/contacto.php" class="title">{% trans %}contacto{% endtrans %}</a></li>
+                                <li><a href="https://support.dokify.net/" target="_blank">{% trans %}ayuda{% endtrans %}</a></li>
+                                <li><a href="/contacto.php">{% trans %}info y contacto{% endtrans %}</a></li>
+                                <li><a href="/status">{% trans %}service status{% endtrans %}</a></li>
+                            </ul>
+                        </div>
+                        <div class="column one mobile-one double-line">
+                            <div><span class="title">{% trans %}síguenos{% endtrans %}</span></div>
+                            <div>
+                                <a href="https://www.facebook.com/dokify" target="_blank" class="circle xxs fb"></a>&nbsp;
+                                <a href="https://twitter.com/dokify" target="_blank" class="circle xxs twitter"></a>&nbsp;
+                            </div>
+                            <div class="vpad-four">
+                                <a href="https://plus.google.com/117852587793996068560?rel=publisher" target="_blank" class="circle xxs gplus"></a>&nbsp;
+                                <a href="https://www.linkedin.com/company/dokify" target="_blank" class="circle xxs linkedin"></a>
+                            </div>
+                        </div>
+                        <form class="column two mobile-hide offset-by-one" method="post" action="/set-locale.php">
+                            <span class="title font-thirteen">{% trans %}we also speak{% endtrans %}:</span>
+                            <select name="language" onchange="this.form.submit();">
+                                {% for languageCode, languageName in languages %}
+                                    <option value="{{languageCode}}" {% if languageCode == language %}selected{% endif %}>{% trans languageName%}</option>
+                                {% endfor %}
+                            </select>
+
+                            <ul id="conditions" class="mtop-fourty text-right">
+                                <li><a class="font-eleven" href="/terminos-y-condiciones.php">{% trans %}términos y condiciones{% endtrans %}</a></li>
+                                <li><a class="font-eleven" href="/politica-de-privacidad.php">{% trans %}política de privacidad{% endtrans %}</a></li>
+                            </ul>
+                        </form>
+                    </div>
+                </section>
+            </footer>
+        </div> {# -- END OF CANVAS -- #}
+
+        
+        {% if env == 'dev' %}
+            <script src="{{cdn}}/js/vendor/jquery-1.9.1.js?{{VKEY}}"></script>
+            <script src="{{cdn}}/js/vendor/jquery.foundation.orbit.min.js?{{VKEY}}"></script>
+            <script src="{{cdn}}/js/vendor/jquery.foundation.reveal.min.js?{{VKEY}}"></script>        
+            <script src="{{cdn}}/js/vendor/jquery.address.js?{{VKEY}}"></script>
+            <script src="{{cdn}}/js/vendor/templating.js?{{VKEY}}"></script>
+            <script src="{{cdn}}/js/main.min.js?{{VKEY}}"></script>
+        {% else %}
+            <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+            <script>window.jQuery || document.write('<script src="{{cdn}}/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+            <script async src="{{cdn}}/js/bundle.js?{{VKEY}}"></script>
+            
+            <script>{% include 'js/analytics.js' %}</script>
+        {% endif %}
+
+        <!--[if lte IE 9]><script src="{{cdn}}/js/vendor/jquery.placeholder.js"></script><script>$('input, textarea').placeholder();</script><![endif]-->
+    </body>
+</html>
