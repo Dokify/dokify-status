@@ -7,102 +7,22 @@
         <meta charset="utf-8">
 
         <!-- setup in server config <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> -->
-        <title>dokify{% if title %} - {% endif %}</title>
+        <title>dokify{% if title %} - status {% endif %}</title>
         <meta name="description" content="">
         <meta name="keywords" content="dokify,coordinacion de actividades empresariales,cae,contratas,subcontratas,requisitos,requerimientos,contratistas,prevencion,riesgos laborales,prl,empresa,red colaborativa,empresarial" />
         <meta name="viewport" content="width=device-width">
         <style id="fonts">{% include 'css/ubuntu.css' %}{% include 'css/helveticaneue.css' %}</style>
 
         <link rel="stylesheet" href="css/web.foundation.css" />
-        <link rel="alternate" type="application/rss+xml" href="/blog/feed/rss2" />
-        <script>var __cdn = '{{cdn}}';</script>
-
-        <!--[if lte IE 8]><script src="{{cdn}}/js/vendor/modernizr-2.6.2.min.js?{{VKEY}}"></script><![endif]-->
-        <!--[if lte IE 8]><link rel="stylesheet" href="{{cdn}}/css/ie/lte8.css" /><![endif]-->
-        <!--[if lte IE 7]><link rel="stylesheet" href="{{cdn}}/css/ie/lte7.css" /><![endif]-->
-        <!--[if lte IE 6]><link rel="stylesheet" href="{{cdn}}/css/ie/lte6.css" /><![endif]-->
+    
     </head>
-
-    <body class="shadow-topline">
-        <!--[if lt IE 7]>
-            <div class="alert alert-box text-center no-radius">
-                You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.
-            </div>
-        <![endif]-->
         
         <div id="canvas">
             <div id="wrapper">
                 <header class="hide-on-print">
-                    {% if cookies.disclaimer_accept != true %}
-                        <div class="warning-message mbottom-four vpad-fifteen mobile-padding-left mobile-padding-right">
-                            <div class="row">
-                                <div class="eight columns centered">
-                                    <div class="one mobile-half columns text-center ">
-                                        <i class="icon s cookie"></i>
-                                    </div>
-                                    <div class="eleven mobile-three-half columns end">
-                                        <span>Este sitio web usa cookies para obtener datos estadísticos de su navegación.<a onclick="document.cookie = 'disclaimer_accept=true'; location.hash=''; location.reload();" href="#" class="green-text underline-dotted">aceptar</a></span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    {% endif %}
                     <nav class="row" role="navigation">
                         <a id="logo" class="column two mobile-two medium-text-center" href="/">
-                            <img src="{{cdn}}/img/shared/logo-web.png" alt="dokify" height="36" width="126" />
-                        </a>
-
-                        <div class="column two doki-tooltip private mobile-two push-eight {% if menu == 'login' %}current{% endif %}">
-                            <a class="tip-link text-center" href="/login.php">
-                                <span>iniciar sesión</span>
-                            </a>
-                            <section class="ie8-hide">
-                                <form method="post" action="/agd/login.php" autocomplete="off">
-                                    <div>
-                                        <input type="text" class="username" placeholder="nombre de usuario" name="usuario" required /> 
-                                        <input type="password" class="password" placeholder="contraseña" name="password" required />
-                                        <span class="remind">
-                                            <input type="checkbox" name="rememberme" value="remember" checked>
-                                            No cerrar sesión
-                                        </span>
-                                        <a class="forgot" href="/recuperar.php">¿Olvidaste tus datos de acceso?</a>
-                                    </div>
-                                    <div class="actions pbottom-three">
-                                        <a class="register" href="#/modal/start">registrarse</a>
-                                        <button type="submit" class="green m">entrar</button>
-                                    </div>
-                                </form>
-                            </section>
-                        </div>
-
-                        <div class="seven columns mobile-four pull-two">
-                            <ul class="inline-list">
-                                <li class="{% if menu == 'que-es' %}current{% endif %}">
-                                    <a href="/que-es.php">
-                                        <span class="hide-for-small">qué es dokify</span>
-                                        <span class="hide-for-large">qué es</span>
-                                    </a>
-                                </li>
-                                <li class="{% if menu == 'que-ofrece' %}current{% endif %}">
-                                    <a href="/que-ofrece.php">qué ofrece</a>
-                                </li>
-                                <li class="{% if menu == 'como-funciona' %}current{% endif %}">
-                                    <a href="/como-funciona.php">cómo funciona</a>
-                                </li>
-                                <li class="{% if menu == 'planes-y-precios' %}current{% endif %}">
-                                    <a href="/planes-y-precios.php">
-                                        <span class="hide-for-small">planes y precios</span>
-                                        <span class="hide-for-large">precios</span>
-                                    </a>
-                                </li>
-                                
-                                <li class="{% if menu == 'blog' %}current{% endif %} mobile-hide">
-                                    <a href="/blog/">blog</a>
-                                </li>
-
-                                <li class="magic" style="width:0px"></li>
-                            </ul>
-                        </div>
+                            <img src="img/shared/logo-web.png" alt="dokify" height="36" width="126" />
+                        </a>                        
                     </nav>
                 </header>
-                <div role="main">
