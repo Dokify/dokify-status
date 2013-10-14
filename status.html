@@ -29,45 +29,12 @@
     <hr class="row line-section mtop-twenty" />
 
     
-    <section class="row mobile-padding mobile-margin-zero"> 
-        <div class="four columns centered text-center mtop-twenty">
-            <ul class="inline-list">
-                {% for instance in instances %}
-                    {% if instance.balancer.status != 'off' %}
-                        <li>
-                        <p>
-                            <strong>{{ instance.id }}</strong>
-                        </p>                    
-                            cpu {{ instance.cpu }}
-                        <br>                    
-                            mem {{ instance.memory.percentage }}
-                        </br>
-                        <br>                    
-                            conn {{ instance.connections }}
-                        </br>
-                        <h5 class="green">
-                            {{ instance.balancer.status }}
-                        </h5>
-                        </li>
-                    {% else %}
-                        <li>
-                        <p>
-                            <strong>{{ instance.id }}</strong>
-                        </p>                    
-                        <h5 class="red">
-                            {{ instance.balancer.status }}
-                        </h5>
-                        </li>
-                    {% endif %}
-                {% endfor %}
-            </ul>
-        </div>
-    </section>
+    
 
     <section class="row mobile-padding mobile-margin-zero mbottom-thirty">
         <div class="twelve columns text-center mtop-twenty">
             <p>
-            Running {{ running | length }} machine(s) - {{ loadAvg }}% load average
+            Running {{ inservice | length }} machine(s) - {{ loadAvg }}% load average
             </p>
             <p>
             Last action: <strong>{{ action.text }}</strong> at <strong>{{ action.time | date ("Y/m/d h:i") }}</strong>

@@ -35,7 +35,7 @@
 	} else { 
 
 		$awsStatus = json_decode(file_get_contents($cachePath)); 
-		$running = $terminated = $wrong = array();
+		$running = $terminated = $wrong = $inservice = array();
 		$load = array();
 		$loadAvg = 0;
 
@@ -43,6 +43,9 @@
 			switch ($instance->state) {
 				case 'running': // --- normal, running machine
 					$running[] = $instance;
+					if ($instance->balancer->status == "InService") {
+						$inservice[] = $instance;
+					}
 					break;
 
 				case 'terminated': // --- normal, aws autoscaler
@@ -64,13 +67,14 @@
 			$loadAvg = round(array_sum($load) / count($load));
 		}
 
+		$vars['inservice'] = $inservice;
 		$vars['instances'] = $awsStatus->instances;
 		$vars['loadAvg'] = $loadAvg;
 		$vars['running'] = $running;
 		$vars['terminated'] = $terminated;
 		$vars['wrong'] = $wrong;
 
-		$vars['problems'] = count($wrong) || !count($running);
+		$vars['problems'] = count($wrong) || !count($inservice);
 
 		$vars['action'] = array(
 			'text' => $awsStatus->action->Description,
