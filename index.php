@@ -61,9 +61,10 @@
 				$load[] = (float) $machine->memory->percentage;
 			}
 
-			$loadAvg = array_sum($load) / count($load);
+			$loadAvg = round(array_sum($load) / count($load));
 		}
 
+		$vars['instances'] = $awsStatus->instances;
 		$vars['loadAvg'] = $loadAvg;
 		$vars['running'] = $running;
 		$vars['terminated'] = $terminated;
