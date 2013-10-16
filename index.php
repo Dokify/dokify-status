@@ -58,13 +58,13 @@
 			}
 		}
 
-		if (count($running)) {
-			foreach ($running as $machine) {
-				$load[] = (float) $machine->cpu;
-				$load[] = (float) $machine->memory->percentage;
+		if (count($inservice)) {
+			foreach ($inservice as $machine) {
+				$cpu = (float) $machine->cpu;
+				$mem = (float) $machine->memory->percentage;
+				$load[] = $cpu + $mem;
 			}
-
-			$loadAvg = round(array_sum($load) / count($load));
+			$loadAvg = round(array_sum($load) / count($inservice));
 		}
 
 		$vars['inservice'] = $inservice;
