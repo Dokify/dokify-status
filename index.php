@@ -38,7 +38,6 @@
 		$running = $terminated = $wrong = $inservice = array();
 		$load = array();
 		$loadAvg = 0;
-
 		foreach ($awsStatus->instances as $instance) {
 			switch ($instance->state) {
 				case 'running': // --- normal, running machine
@@ -62,7 +61,8 @@
 			foreach ($inservice as $machine) {
 				$cpu = (float) $machine->cpu;
 				$mem = (float) $machine->memory->percentage;
-				$load[] = $cpu + $mem;
+				$load[] =  round(($cpu + $mem) / 2);
+				//var_dump($machine->id);
 			}
 			$loadAvg = round(array_sum($load) / count($inservice));
 		}
