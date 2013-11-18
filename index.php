@@ -22,8 +22,8 @@
 			$cache['instances'][] = $instance->toArray();
 		}
 		$cache['action'] = (array) $action;
-		echo('cache');
-		echo($cache['action']);
+		//echo('cache');
+		//echo($cache['action']);
 		$json=json_encode($cache);
 		file_put_contents($cachePath, $json);
 		$persist="/var/dokify/dev-tools/persist.php";
