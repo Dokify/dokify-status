@@ -78,10 +78,11 @@
 
 		public function getTotal(){
 			if( $data = $this->getMetricData($this->id) ){
-				return $data->memoria->total;
+				$val = intval($data->memoria->total);
+				return $val;
 			}
 
-			return 0;
+			return 1700;
 		}
 
 		public function getProcesos(){
