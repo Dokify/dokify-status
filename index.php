@@ -9,7 +9,7 @@
 	if( isset($_SERVER['argv']) && isset($_SERVER['argv'][1]) && $_SERVER['argv'][1] === 'cache' ){
 
 		$aws = new AWSStatus();
-	
+
 		$autoscaler = $aws->getAutoScaler();
 		$instances = $autoscaler->getInstances();
 		$action = $autoscaler->getLastActivity();
@@ -32,9 +32,9 @@
 			$_SERVER['argv'][2]=$json;
 			require $persist;
 		}
-	} else { 
+	} else {
 
-		$awsStatus = json_decode(file_get_contents($cachePath)); 
+		$awsStatus = json_decode(file_get_contents($cachePath));
 		$running = $terminated = $wrong = $inservice = array();
 		$load = array();
 		$loadAvg = 0;
