@@ -7,7 +7,7 @@
 
 		protected $aws;
 		private static $describe_instance_health_response = array();
-		const LOAD_BALANCER_NAME = 'dokifyloadbalancer';
+		const LOAD_BALANCER_NAME = 'vpcdokifyLB';
 
 		public function __construct($aws, $credentials){
 			$this->aws = $aws;
@@ -18,7 +18,7 @@
 			if( !self::$describe_instance_health_response ) self::$describe_instance_health_response = $this->describe_instance_health(self::LOAD_BALANCER_NAME);
 
 			$instances = self::$describe_instance_health_response->body->DescribeInstanceHealthResult->InstanceStates->member;
-			
+
 			if ($id) {
 				foreach($instances as $i => $instance){
 					if ($id==$instance->InstanceId){
